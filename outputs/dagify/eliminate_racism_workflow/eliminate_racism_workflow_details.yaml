@@ -1,0 +1,53 @@
+dag_type: plain_text
+description: Sequentially complete steps to eliminate racism from various institutions
+  and processes.
+name: eliminate_racism_workflow
+nodes:
+  develop_and_implement_anti-racism_policies:
+    agent: false
+    description: Design and implement evidence-based solutions that actively combat
+      racist structures and promote inclusivity and equity.
+    name: develop_and_implement_anti-racism_policies
+    nodes_depended_on:
+    - identify_areas_of_systemic_racism
+    nodes_dependent_on: []
+    prompt: Create and implement programs and policies aimed at dismantling systemic
+      racism within institutions.
+  identify_areas_of_systemic_racism:
+    agent: false
+    description: Use critical thinking to pinpoint areas within institutions that
+      foster and perpetuate racist systems and attitudes.
+    name: identify_areas_of_systemic_racism
+    nodes_depended_on:
+    - raise_awareness_of_systemic_racism
+    nodes_dependent_on: []
+    prompt: Analyze institutions and processes that perpetuate systemic racism, such
+      as education, employment, and justice systems.
+  monitor_and_evaluate_progress:
+    agent: false
+    description: Provide constructive feedback and make adjustments as necessary to
+      ensure sustained efforts towards eliminating systemic racism.
+    name: monitor_and_evaluate_progress
+    nodes_depended_on:
+    - train_and_educate_institutions_in_anti-racist_practices
+    nodes_dependent_on: []
+    prompt: Regularly assess and evaluate progress in eradicating systemic racism
+      within institutions.
+  raise_awareness_of_systemic_racism:
+    agent: false
+    description: Develop a deep understanding of the insidious nature of systemic
+      racism and its effects on marginalized communities.
+    name: raise_awareness_of_systemic_racism
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Educate individuals about the existence and consequences of systemic racism.
+  train_and_educate_institutions_in_anti-racist_practices:
+    agent: false
+    description: Train educators, administrators, and employees on recognizing and
+      avoiding racist behaviors, language, and assumptions.
+    name: train_and_educate_institutions_in_anti-racist_practices
+    nodes_depended_on:
+    - develop_and_implement_anti-racism_policies
+    nodes_dependent_on: []
+    prompt: Educate stakeholders about anti-racism practices and the importance of
+      actively working to dismantle systemic racism within institutions.

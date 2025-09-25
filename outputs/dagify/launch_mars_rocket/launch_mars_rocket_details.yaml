@@ -1,0 +1,133 @@
+dag_type: plain_text
+description: A detailed workflow for designing, building, and launching a rocket to
+  Mars.
+name: launch_mars_rocket
+nodes:
+  choose_landing_site:
+    agent: false
+    description: Determine a prime landing site on Mars that meets the mission objectives.
+    name: choose_landing_site
+    nodes_depended_on:
+    - design_payload_system
+    - select_launch_window
+    nodes_dependent_on: []
+    prompt: Select a suitable landing site on Mars, considering the mission requirements
+      and the planet's geology.
+  choose_propulsion_method:
+    agent: false
+    description: Determine the propulsion method that best suits the mission objectives.
+    name: choose_propulsion_method
+    nodes_depended_on:
+    - design_rocket_structure
+    nodes_dependent_on: []
+    prompt: Select a propulsion system (e.g., rocket engines, ion thrusters) that
+      satisfies the mission requirements.
+  conduct_structural_analysis:
+    agent: false
+    description: Perform a structural analysis to validate the rocket's capability
+      to withstand the stresses during launch and transit.
+    name: conduct_structural_analysis
+    nodes_depended_on:
+    - design_rocket_structure
+    nodes_dependent_on: []
+    prompt: Conduct a structural analysis to ensure the rocket's structural integrity
+      can support the stresses of launch and transit.
+  create_launch_sequence:
+    agent: false
+    description: Create a launch sequence that ensures a smooth and successful launch.
+    name: create_launch_sequence
+    nodes_depended_on:
+    - design_communication_system
+    - select_launch_window
+    nodes_dependent_on: []
+    prompt: Develop a detailed launch sequence to ensure a successful and efficient
+      launch.
+  define_mission_objectives:
+    agent: false
+    description: Set the clear mission objectives for the Mars rocket.
+    name: define_mission_objectives
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: 'Specify the primary mission objective: crewed vs. robotic, scientific
+      payload, sample return.'
+  deploy_payload:
+    agent: false
+    description: Ensure the safe and accurate deployment of the scientific instruments
+      and crew on the Martian surface.
+    name: deploy_payload
+    nodes_depended_on:
+    - launch_mars_rocket
+    - design_payload_system
+    nodes_dependent_on: []
+    prompt: Deploy the scientific instruments and crew (if crewed) to the Martian
+      surface.
+  design_communication_system:
+    agent: false
+    description: Create a communication system that enables seamless communication
+      between the Mars rocket and Earth.
+    name: design_communication_system
+    nodes_depended_on:
+    - choose_landing_site
+    nodes_dependent_on: []
+    prompt: Develop a reliable communication system to maintain contact between the
+      Mars rocket and Earth.
+  design_payload_system:
+    agent: false
+    description: Develop a payload system that ensures the safe and accurate delivery
+      of the scientific instruments and crew.
+    name: design_payload_system
+    nodes_depended_on:
+    - select_launch_window
+    nodes_dependent_on: []
+    prompt: Design the payload system to transport and protect the scientific instruments
+      and crew (if crewed).
+  design_rocket_structure:
+    agent: false
+    description: Design the rocket's structure and ensure it meets the mission requirements.
+    name: design_rocket_structure
+    nodes_depended_on:
+    - define_mission_objectives
+    nodes_dependent_on: []
+    prompt: Sketch the rocket's main components, including its diameter, length, and
+      material selection. Consider thermal, structural, and life support requirements.
+  establish_communication_link:
+    agent: false
+    description: Verify the communication link between the Mars rover and Earth.
+    name: establish_communication_link
+    nodes_depended_on:
+    - deploy_payload
+    - design_communication_system
+    nodes_dependent_on: []
+    prompt: Establish a communication link between the Mars rover and Earth.
+  launch_mars_rocket:
+    agent: false
+    description: Launch the Mars rocket and begin the descent and landing process.
+    name: launch_mars_rocket
+    nodes_depended_on:
+    - create_launch_sequence
+    - conduct_structural_analysis
+    - simulate_mars_entry
+    nodes_dependent_on: []
+    prompt: Launch the Mars rocket and initiate the descent and landing sequence.
+  select_launch_window:
+    agent: false
+    description: Determine the best launch window to minimize energy consumption and
+      maximize mission success.
+    name: select_launch_window
+    nodes_depended_on:
+    - choose_propulsion_method
+    - design_rocket_structure
+    nodes_dependent_on: []
+    prompt: Identify the optimal launch window based on planetary alignment and mission
+      constraints.
+  simulate_mars_entry:
+    agent: false
+    description: Verify the mission's feasibility by simulating the rocket's Martian
+      entry, descent, and landing.
+    name: simulate_mars_entry
+    nodes_depended_on:
+    - create_launch_sequence
+    - design_rocket_structure
+    nodes_dependent_on: []
+    prompt: Simulate the Mars rocket's entry, descent, and landing to validate the
+      mission's feasibility.

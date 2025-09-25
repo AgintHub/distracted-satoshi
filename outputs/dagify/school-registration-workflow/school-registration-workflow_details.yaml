@@ -1,0 +1,49 @@
+dag_type: plain_text
+description: Create a plan for parents putting their kid into elementary school.
+name: school-registration-workflow
+nodes:
+  choose-a-school:
+    agent: false
+    description: Select a school for the child.
+    name: choose-a-school
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Choose a school in the desired area, considering factors such as academic
+      performance, safety, and extra-curricular activities.
+  complete-any-follow-up-actions:
+    agent: false
+    description: Address any additional requirements or follow-up actions.
+    name: complete-any-follow-up-actions
+    nodes_depended_on:
+    - register-the-child
+    nodes_dependent_on: []
+    prompt: Complete any additional requirements or follow-up actions, such as scheduling
+      an interview or providing additional documents.
+  gather-required-documents:
+    agent: false
+    description: Collect necessary documents for registration.
+    name: gather-required-documents
+    nodes_depended_on:
+    - choose-a-school
+    nodes_dependent_on: []
+    prompt: Prepare and gather required documents, such as birth certificate, proof
+      of residency, and vaccination records.
+  register-the-child:
+    agent: false
+    description: Submit the registration application and required documents.
+    name: register-the-child
+    nodes_depended_on:
+    - gather-required-documents
+    - understand-admission-requirements
+    nodes_dependent_on: []
+    prompt: Submit the registration application and required documents to the chosen
+      school.
+  understand-admission-requirements:
+    agent: false
+    description: Learn about the school's admission requirements and process.
+    name: understand-admission-requirements
+    nodes_depended_on:
+    - choose-a-school
+    nodes_dependent_on: []
+    prompt: Research and understand the school's admission requirements, including
+      deadlines and necessary documents.

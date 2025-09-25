@@ -1,0 +1,154 @@
+dag_type: plain_text
+description: Develop a detailed, step-by-step plan for designing, building, and launching
+  a rocket ship to Mars.
+name: build_a_rocket_ship_to_mars
+nodes:
+  conduct_rocket_ship_testing:
+    agent: false
+    description: Develop a comprehensive testing plan, including pre-flight checks,
+      in-flight monitoring, and post-flight analysis.
+    name: conduct_rocket_ship_testing
+    nodes_depended_on:
+    - simulate_rocket_ship_performance
+    nodes_dependent_on: []
+    prompt: What testing procedures will be required to validate the rocket ship's
+      design?
+  define_rocket_ship_scientific_goal:
+    agent: false
+    description: Establish the purpose of the mission to provide a clear goal for
+      the project.
+    name: define_rocket_ship_scientific_goal
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: What are the primary scientific objectives of the Mars mission?
+  descend_to_mars_surface:
+    agent: false
+    description: Activate the landing system, and navigate the rocket ship through
+      the Martian atmosphere and land on the surface.
+    name: descend_to_mars_surface
+    nodes_depended_on:
+    - prepare_rocket_ship_for_descent
+    nodes_dependent_on: []
+    prompt: What actions are required to safely descend to the Martian surface?
+  design_rocket_ship_structure:
+    agent: false
+    description: Develop a detailed design for the rocket ship's structure, including
+      materials and weight distribution.
+    name: design_rocket_ship_structure
+    nodes_depended_on:
+    - identify_rocket_ship_design_requirements
+    nodes_dependent_on:
+    - research_mars_environment
+    prompt: What is the optimal structural design for the rocket ship to withstand
+      the harsh Martian environment?
+  develop_rocket_ship_landing_system:
+    agent: false
+    description: Design a landing system, including retro-rockets, parachutes, or
+      other landing technologies.
+    name: develop_rocket_ship_landing_system
+    nodes_depended_on:
+    - plan_rocket_ship_navigation
+    nodes_dependent_on: []
+    prompt: What landing system will the rocket ship use to safely touch down on Mars?
+  develop_rocket_ship_life_support_system:
+    agent: false
+    description: Design a reliable life support system, including air, water, and
+      food supply, as well as waste management.
+    name: develop_rocket_ship_life_support_system
+    nodes_depended_on:
+    - design_rocket_ship_structure
+    nodes_dependent_on: []
+    prompt: What life support systems will be required for the rocket ship?
+  develop_rocket_ship_propulsion_system:
+    agent: false
+    description: Design a propulsion system, including the choice of fuel, engine
+      type, and control systems.
+    name: develop_rocket_ship_propulsion_system
+    nodes_depended_on:
+    - design_rocket_ship_structure
+    nodes_dependent_on: []
+    prompt: What propulsion system will the rocket ship use to travel to Mars?
+  enter_mars_orbit:
+    agent: false
+    description: Activate the propulsion system to achieve orbit, and perform necessary
+      course corrections.
+    name: enter_mars_orbit
+    nodes_depended_on:
+    - lauch_rocket_ship_to_mars
+    nodes_dependent_on: []
+    prompt: How will the rocket ship enter Mars orbit?
+  identify_rocket_ship_design_requirements:
+    agent: false
+    description: Determine the necessary features, such as size, shape, materials,
+      and life support systems.
+    name: identify_rocket_ship_design_requirements
+    nodes_depended_on:
+    - research_mars_environment
+    nodes_dependent_on: []
+    prompt: What are the key design requirements for the rocket ship to safely transport
+      crew and cargo to Mars?
+  lauch_rocket_ship_to_mars:
+    agent: false
+    description: Execute the launch sequence, including fueling, ignition, and lift-off.
+    name: lauch_rocket_ship_to_mars
+    nodes_depended_on:
+    - prepare_rocket_ship_launch
+    nodes_dependent_on: []
+    prompt: What actions are required to launch the rocket ship to Mars?
+  plan_rocket_ship_navigation:
+    agent: false
+    description: Determine the navigation strategy, including control systems, communication
+      equipment, and route planning.
+    name: plan_rocket_ship_navigation
+    nodes_depended_on:
+    - develop_rocket_ship_propulsion_system
+    nodes_dependent_on: []
+    prompt: How will the rocket ship navigate to Mars?
+  prepare_rocket_ship_for_descent:
+    agent: false
+    description: Prepare the life support systems, propulsion system, and landing
+      equipment for atmospheric entry.
+    name: prepare_rocket_ship_for_descent
+    nodes_depended_on:
+    - enter_mars_orbit
+    nodes_dependent_on: []
+    prompt: What procedures must be followed to prepare the rocket ship for descent?
+  prepare_rocket_ship_launch:
+    agent: false
+    description: Coordinate with launch teams, conduct final checks, and confirm the
+      rocket ship is ready for launch.
+    name: prepare_rocket_ship_launch
+    nodes_depended_on:
+    - conduct_rocket_ship_testing
+    nodes_dependent_on: []
+    prompt: What launch preparations are necessary to ensure a successful Mars mission?
+  research_mars_environment:
+    agent: false
+    description: Gather information on the Martian atmosphere, gravity, temperature,
+      and radiation levels.
+    name: research_mars_environment
+    nodes_depended_on:
+    - define_rocket_ship_scientific_goal
+    nodes_dependent_on: []
+    prompt: What are the environmental conditions and challenges on Mars that the
+      rocket ship must survive?
+  select_rocket_ship_fuel:
+    agent: false
+    description: Determine the most suitable fuel type, considering factors such as
+      weight, efficiency, and safety.
+    name: select_rocket_ship_fuel
+    nodes_depended_on:
+    - develop_rocket_ship_propulsion_system
+    nodes_dependent_on: []
+    prompt: Which fuel type will be used for the rocket ship propulsion system?
+  simulate_rocket_ship_performance:
+    agent: false
+    description: Use computer simulations to analyze the rocket ship's performance,
+      including speed, maneuverability, and fuel efficiency.
+    name: simulate_rocket_ship_performance
+    nodes_depended_on:
+    - develop_rocket_ship_propulsion_system
+    - develop_rocket_ship_life_support_system
+    - develop_rocket_ship_landing_system
+    nodes_dependent_on: []
+    prompt: What performance metrics can be expected from the rocket ship?

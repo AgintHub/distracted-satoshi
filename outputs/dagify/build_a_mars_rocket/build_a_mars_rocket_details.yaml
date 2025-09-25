@@ -1,0 +1,130 @@
+dag_type: plain_text
+description: Build a rocket capable of transporting people to Mars and returning safely
+name: build_a_mars_rocket
+nodes:
+  conduct_market_study:
+    agent: false
+    description: Research the current state of the space travel industry and identify
+      competitors
+    name: conduct_market_study
+    nodes_depended_on:
+    - define_roi
+    nodes_dependent_on: []
+    prompt: Conduct a market study to identify current players in the space travel
+      industry, their offerings, and pricing
+  create_hazardous_waste_plans:
+    agent: false
+    description: Develop plans for managing hazardous waste and disposing of it safely
+      on Earth
+    name: create_hazardous_waste_plans
+    nodes_depended_on:
+    - plan_for_emergency_situations
+    nodes_dependent_on: []
+    prompt: Develop plans for managing hazardous waste and disposing of it safely
+      on Earth to minimize environmental impact
+  define_roi:
+    agent: false
+    description: Determine the Return on Investment (ROI) goals for the project
+    name: define_roi
+    nodes_depended_on: []
+    nodes_dependent_on: []
+    prompt: Define the ROI goals for the Mars rocket project, including the desired
+      profit margin and time to break even
+  design_propulsion_system:
+    agent: false
+    description: Design the propulsion system, including the rocket engines and fuel
+      tanks
+    name: design_propulsion_system
+    nodes_depended_on:
+    - select_launch_window
+    nodes_dependent_on: []
+    prompt: Design the propulsion system, including the rocket engines and fuel tanks,
+      to optimize for efficiency, reliability, and performance
+  design_spacecraft:
+    agent: false
+    description: Design the spacecraft that will carry people to and from Mars
+    name: design_spacecraft
+    nodes_depended_on:
+    - conduct_market_study
+    nodes_dependent_on: []
+    prompt: Design the spacecraft that will carry people to and from Mars, including
+      the propulsion system, life support systems, and passenger accommodations
+  develop_guidance_and_control_system:
+    agent: false
+    description: Design the guidance and control system, including navigation and
+      communication equipment
+    name: develop_guidance_and_control_system
+    nodes_depended_on:
+    - design_propulsion_system
+    nodes_dependent_on: []
+    prompt: Design the guidance and control system, including navigation and communication
+      equipment, to ensure accurate navigation and precise control of the spacecraft
+  devise_return_flight_plan:
+    agent: false
+    description: Develop the flight plan for the return journey from Mars to Earth
+    name: devise_return_flight_plan
+    nodes_depended_on:
+    - plan_mars_surface_operations
+    nodes_dependent_on: []
+    prompt: Develop the flight plan for the return journey from Mars to Earth, including
+      the trajectory, fuel requirements, and entry, descent, and landing (EDL) techniques
+  plan_for_emergency_situations:
+    agent: false
+    description: Develop contingency plans for emergency situations, including system
+      failures and communication loss
+    name: plan_for_emergency_situations
+    nodes_depended_on:
+    - devise_return_flight_plan
+    nodes_dependent_on: []
+    prompt: Develop contingency plans for emergency situations, including system failures
+      and communication loss, to ensure crew safety and recovery
+  plan_for_post_mission_activities:
+    agent: false
+    description: Create a plan for activities following the mission, including crew
+      recovery and debrief
+    name: plan_for_post_mission_activities
+    nodes_depended_on:
+    - create_hazardous_waste_plans
+    nodes_dependent_on: []
+    prompt: Create a plan for activities following the mission, including crew recovery
+      and debrief, to ensure a successful conclusion to the mission
+  plan_mars_surface_operations:
+    agent: false
+    description: Create a plan for operations on the Mars surface, including landing,
+      communication, and exploration
+    name: plan_mars_surface_operations
+    nodes_depended_on:
+    - develop_guidance_and_control_system
+    nodes_dependent_on: []
+    prompt: Create a plan for operations on the Mars surface, including landing, communication,
+      and exploration, to ensure a successful and safe mission
+  plan_nasa_mission_profile:
+    agent: false
+    description: Obtain and review the latest data from NASA regarding planetary alignments
+      and trajectories
+    name: plan_nasa_mission_profile
+    nodes_depended_on:
+    - select_mission_parameters
+    nodes_dependent_on: []
+    prompt: Obtain and review the latest data from NASA regarding planetary alignments
+      and trajectories to ensure the rocket is aligned with optimal flight conditions
+  select_launch_window:
+    agent: false
+    description: Choose the optimal launch window based on NASA data and spacecraft
+      performance
+    name: select_launch_window
+    nodes_depended_on:
+    - plan_nasa_mission_profile
+    nodes_dependent_on: []
+    prompt: Choose the optimal launch window based on NASA data and spacecraft performance
+      to ensure a safe and efficient journey to Mars
+  select_mission_parameters:
+    agent: false
+    description: Choose the mission parameters, including the launch window, trajectory,
+      and Mars orbit
+    name: select_mission_parameters
+    nodes_depended_on:
+    - design_spacecraft
+    nodes_dependent_on: []
+    prompt: Choose the mission parameters, including the launch window, trajectory,
+      and Mars orbit, based on the spacecraft design

@@ -1,6 +1,6 @@
 dag_type: plain_text
-description: 'A workflow to rollout a patch for a third-party solution, organized
-  into buckets: planning, release, and post-release.'
+description: Visualizes the workflow by adding separating lines (represented by labeled
+  nodes) to the existing workflow interface.
 name: rollout_patch_with_bucket_visualization
 nodes:
   announce_patch_schedule:
@@ -9,7 +9,7 @@ nodes:
       stakeholders, end-users, and relevant teams.
     name: announce_patch_schedule
     nodes_depended_on:
-    - schedule_downtime
+    - section_line_deployment
     nodes_dependent_on:
     - deploy_patch
     prompt: Draft and distribute an announcement about the patch schedule. Include
@@ -21,6 +21,7 @@ nodes:
     nodes_depended_on:
     - set_up_testing_environment
     - evaluate_risks
+    - section_line_testing
     nodes_dependent_on:
     - perform_test_validation
     prompt: Install the patch in the prepared test environment. Monitor for errors,
@@ -69,6 +70,7 @@ nodes:
     name: finalize_patch_approval
     nodes_depended_on:
     - document_test_results
+    - section_line_deployment
     nodes_dependent_on:
     - deploy_patch
     prompt: Compile test results, risk evaluations, and rollback plans. Present them
@@ -80,10 +82,11 @@ nodes:
     name: identify_affected_systems
     nodes_depended_on:
     - review_patch_notes
+    - section_line_initial_planning
     nodes_dependent_on:
+    - prepare_test_plan
     - prepare_backup_plan
     - schedule_downtime
-    - prepare_test_plan
     prompt: Based on the provided patch notes, list all systems, servers, or users
       that the patch will affect. Include dependencies or workflows that may require
       adjustments.
@@ -93,6 +96,7 @@ nodes:
     name: issue_post_patch_communication
     nodes_depended_on:
     - perform_post_patch_validation
+    - section_line_post_deployment
     nodes_dependent_on: []
     prompt: Draft and distribute a communication confirming that the patch has been
       successfully deployed. Outline any visible improvements or changes and provide
@@ -104,6 +108,7 @@ nodes:
     name: monitor_systems_post_patch
     nodes_depended_on:
     - perform_post_patch_validation
+    - section_line_post_deployment
     nodes_dependent_on: []
     prompt: Implement a post-patch monitoring regimen. Use monitoring tools to track
       performance, log errors, and identify anomalies for a defined period. React
@@ -116,8 +121,8 @@ nodes:
     nodes_depended_on:
     - deploy_patch
     nodes_dependent_on:
-    - monitor_systems_post_patch
     - issue_post_patch_communication
+    - monitor_systems_post_patch
     prompt: Perform a series of post-patch validation checks based on previously prepared
       test scenarios. Ensure all systems are functioning as expected after the patch.
   perform_test_validation:
@@ -126,7 +131,6 @@ nodes:
     name: perform_test_validation
     nodes_depended_on:
     - apply_patch_in_test_env
-    - prepare_test_plan
     nodes_dependent_on:
     - document_test_results
     prompt: Execute the defined test cases in the patched test environment. Compare
@@ -139,6 +143,7 @@ nodes:
     name: prepare_backup_plan
     nodes_depended_on:
     - identify_affected_systems
+    - section_line_deployment
     nodes_dependent_on:
     - deploy_patch
     prompt: Outline a backup and rollback procedure for all affected systems. Specify
@@ -165,28 +170,65 @@ nodes:
     nodes_depended_on: []
     nodes_dependent_on:
     - identify_affected_systems
-    - prepare_test_plan
     - evaluate_risks
+    - prepare_test_plan
     prompt: Analyze the patch notes provided by the vendor. Identify the nature of
       changes, fixed issues, known risks, and any prerequisites for patch installation.
       Summarize the key findings in a list.
-  schedule_downtime:
+  section_line_deployment:
     agent: false
-    description: Coordinate and schedule system downtime for the patch rollout, if
-      necessary.
-    name: schedule_downtime
+    description: Add a visual separating line labeled 'Deployment Phase' to organize
+      tasks.
+    name: section_line_deployment
     nodes_depended_on:
-    - identify_affected_systems
+    - document_test_results
     nodes_dependent_on:
+    - prepare_backup_plan
     - announce_patch_schedule
-    prompt: Consult with stakeholders and identify an optimal window for system downtime
-      during the patch rollout. Ensure minimal disruption to ongoing operations.
+    - finalize_patch_approval
+    prompt: Insert a visual break with the label 'Deployment Phase' to separate related
+      tasks in this section.
+  section_line_initial_planning:
+    agent: false
+    description: Add a visual separating line labeled 'Initial Planning Phase' to
+      organize tasks.
+    name: section_line_initial_planning
+    nodes_depended_on: []
+    nodes_dependent_on:
+    - identify_affected_systems
+    prompt: Insert a visual break with the label 'Initial Planning Phase' to separate
+      related tasks in this section.
+  section_line_post_deployment:
+    agent: false
+    description: Add a visual separating line labeled 'Post-Deployment Phase' to organize
+      tasks.
+    name: section_line_post_deployment
+    nodes_depended_on:
+    - perform_post_patch_validation
+    nodes_dependent_on:
+    - issue_post_patch_communication
+    - monitor_systems_post_patch
+    prompt: Insert a visual break with the label 'Post-Deployment Phase' to separate
+      related tasks in this section.
+  section_line_testing:
+    agent: false
+    description: Add a visual separating line labeled 'Testing and Validation Phase'
+      to organize tasks.
+    name: section_line_testing
+    nodes_depended_on:
+    - evaluate_risks
+    nodes_dependent_on:
+    - set_up_testing_environment
+    - apply_patch_in_test_env
+    prompt: Insert a visual break with the label 'Testing and Validation Phase' to
+      separate related tasks in this section.
   set_up_testing_environment:
     agent: false
     description: Prepare an isolated environment for patch testing.
     name: set_up_testing_environment
     nodes_depended_on:
     - prepare_test_plan
+    - section_line_testing
     nodes_dependent_on:
     - apply_patch_in_test_env
     prompt: Build or configure a controlled environment that mirrors the production

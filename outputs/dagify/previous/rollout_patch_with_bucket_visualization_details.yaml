@@ -1,7 +1,7 @@
 dag_type: plain_text
-description: This workflow details the steps to plan, test, communicate, and roll
-  out a patch for a third-party vendor solution scheduled for 11/1.
-name: rollout_patch_for_third_party_solution
+description: 'A workflow to rollout a patch for a third-party solution, organized
+  into buckets: planning, release, and post-release.'
+name: rollout_patch_with_bucket_visualization
 nodes:
   announce_patch_schedule:
     agent: false
@@ -10,7 +10,8 @@ nodes:
     name: announce_patch_schedule
     nodes_depended_on:
     - schedule_downtime
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - deploy_patch
     prompt: Draft and distribute an announcement about the patch schedule. Include
       details on downtime, expected user impact, and any actions required from end-users.
   apply_patch_in_test_env:
@@ -20,7 +21,8 @@ nodes:
     nodes_depended_on:
     - set_up_testing_environment
     - evaluate_risks
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - perform_test_validation
     prompt: Install the patch in the prepared test environment. Monitor for errors,
       performance deviations, or other issues. Record testing observations and results.
   deploy_patch:
@@ -32,7 +34,8 @@ nodes:
     - finalize_patch_approval
     - prepare_backup_plan
     - announce_patch_schedule
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - perform_post_patch_validation
     prompt: Deploy the patch to the production system according to the vendor's instructions.
       Monitor the deployment closely for any errors.
   document_test_results:
@@ -41,7 +44,9 @@ nodes:
     name: document_test_results
     nodes_depended_on:
     - perform_test_validation
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - finalize_patch_approval
+    - train_support_staff
     prompt: Document the results of the test validation process, include both successful
       outcomes and any issues found. Provide clear recommendations for moving forward
       with the patch deployment.
@@ -52,7 +57,8 @@ nodes:
     nodes_depended_on:
     - review_patch_notes
     - identify_affected_systems
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - apply_patch_in_test_env
     prompt: Identify potential risks associated with the patch, such as downtime,
       compatibility issues, or conflicts. Provide a risk mitigation plan for each
       risk identified.
@@ -63,7 +69,8 @@ nodes:
     name: finalize_patch_approval
     nodes_depended_on:
     - document_test_results
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - deploy_patch
     prompt: Compile test results, risk evaluations, and rollback plans. Present them
       to stakeholders for final approval to proceed with the patch rollout.
   identify_affected_systems:
@@ -73,7 +80,10 @@ nodes:
     name: identify_affected_systems
     nodes_depended_on:
     - review_patch_notes
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - prepare_backup_plan
+    - schedule_downtime
+    - prepare_test_plan
     prompt: Based on the provided patch notes, list all systems, servers, or users
       that the patch will affect. Include dependencies or workflows that may require
       adjustments.
@@ -105,7 +115,9 @@ nodes:
     name: perform_post_patch_validation
     nodes_depended_on:
     - deploy_patch
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - monitor_systems_post_patch
+    - issue_post_patch_communication
     prompt: Perform a series of post-patch validation checks based on previously prepared
       test scenarios. Ensure all systems are functioning as expected after the patch.
   perform_test_validation:
@@ -115,7 +127,8 @@ nodes:
     nodes_depended_on:
     - apply_patch_in_test_env
     - prepare_test_plan
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - document_test_results
     prompt: Execute the defined test cases in the patched test environment. Compare
       actual results against expected outcomes and highlight any deviations or issues
       encountered.
@@ -126,7 +139,8 @@ nodes:
     name: prepare_backup_plan
     nodes_depended_on:
     - identify_affected_systems
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - deploy_patch
     prompt: Outline a backup and rollback procedure for all affected systems. Specify
       steps for preserving current system states and ensuring rapid restoration in
       case of failure.
@@ -138,7 +152,8 @@ nodes:
     nodes_depended_on:
     - review_patch_notes
     - identify_affected_systems
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - set_up_testing_environment
     prompt: Create a detailed test plan including test cases, expected outcomes, and
       criteria for success to validate the patch in a controlled environment. Use
       constraints and known details from vendor documentation.
@@ -148,7 +163,10 @@ nodes:
       to understand the patch details.
     name: review_patch_notes
     nodes_depended_on: []
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - identify_affected_systems
+    - prepare_test_plan
+    - evaluate_risks
     prompt: Analyze the patch notes provided by the vendor. Identify the nature of
       changes, fixed issues, known risks, and any prerequisites for patch installation.
       Summarize the key findings in a list.
@@ -159,7 +177,8 @@ nodes:
     name: schedule_downtime
     nodes_depended_on:
     - identify_affected_systems
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - announce_patch_schedule
     prompt: Consult with stakeholders and identify an optimal window for system downtime
       during the patch rollout. Ensure minimal disruption to ongoing operations.
   set_up_testing_environment:
@@ -168,7 +187,8 @@ nodes:
     name: set_up_testing_environment
     nodes_depended_on:
     - prepare_test_plan
-    nodes_dependent_on: []
+    nodes_dependent_on:
+    - apply_patch_in_test_env
     prompt: Build or configure a controlled environment that mirrors the production
       setup for testing the patch. Ensure necessary permissions, resources, and mock
       data are in place.

@@ -1,246 +1,77 @@
 dag_type: plain_text
-description: Visualizes the workflow by adding separating lines (represented by labeled
-  nodes) to the existing workflow interface.
-name: rollout_patch_with_bucket_visualization
+description: A workflow to build a project plan for deploying a third-party vendor
+  patch on 12/1 and add labels or visual clarity on timelines
+name: deploy_third_party_vendor_patch
 nodes:
-  announce_patch_schedule:
+  add_labels_and_visual_clarity:
     agent: false
-    description: Communicate the patch schedule and effects of planned downtime to
-      stakeholders, end-users, and relevant teams.
-    name: announce_patch_schedule
+    description: Add labels and visual clarity to the deployment timeline
+    name: add_labels_and_visual_clarity
     nodes_depended_on:
-    - section_line_deployment
-    nodes_dependent_on:
-    - deploy_patch
-    prompt: Draft and distribute an announcement about the patch schedule. Include
-      details on downtime, expected user impact, and any actions required from end-users.
-  apply_patch_in_test_env:
-    agent: false
-    description: Deploy the patch to the test environment and monitor its performance.
-    name: apply_patch_in_test_env
-    nodes_depended_on:
-    - set_up_testing_environment
-    - evaluate_risks
-    - section_line_testing
-    nodes_dependent_on:
-    - perform_test_validation
-    prompt: Install the patch in the prepared test environment. Monitor for errors,
-      performance deviations, or other issues. Record testing observations and results.
-  deploy_patch:
-    agent: false
-    description: Apply the patch to the production environment within the scheduled
-      downtime window.
-    name: deploy_patch
-    nodes_depended_on:
-    - finalize_patch_approval
-    - prepare_backup_plan
-    - announce_patch_schedule
-    nodes_dependent_on:
-    - perform_post_patch_validation
-    prompt: Deploy the patch to the production system according to the vendor's instructions.
-      Monitor the deployment closely for any errors.
-  document_test_results:
-    agent: false
-    description: Summarize and document the results of the patch testing phase.
-    name: document_test_results
-    nodes_depended_on:
-    - perform_test_validation
-    nodes_dependent_on:
-    - finalize_patch_approval
-    - train_support_staff
-    prompt: Document the results of the test validation process, include both successful
-      outcomes and any issues found. Provide clear recommendations for moving forward
-      with the patch deployment.
-  evaluate_risks:
-    agent: false
-    description: Assess potential risks or negative impacts from applying the patch.
-    name: evaluate_risks
-    nodes_depended_on:
-    - review_patch_notes
-    - identify_affected_systems
-    nodes_dependent_on:
-    - apply_patch_in_test_env
-    prompt: Identify potential risks associated with the patch, such as downtime,
-      compatibility issues, or conflicts. Provide a risk mitigation plan for each
-      risk identified.
-  finalize_patch_approval:
-    agent: false
-    description: Obtain final approval from stakeholders or management to deploy the
-      patch.
-    name: finalize_patch_approval
-    nodes_depended_on:
-    - document_test_results
-    - section_line_deployment
-    nodes_dependent_on:
-    - deploy_patch
-    prompt: Compile test results, risk evaluations, and rollback plans. Present them
-      to stakeholders for final approval to proceed with the patch rollout.
-  identify_affected_systems:
-    agent: false
-    description: Determine the systems and workflows that will be impacted by the
-      patch.
-    name: identify_affected_systems
-    nodes_depended_on:
-    - review_patch_notes
-    - section_line_initial_planning
-    nodes_dependent_on:
-    - prepare_test_plan
-    - prepare_backup_plan
-    - schedule_downtime
-    prompt: Based on the provided patch notes, list all systems, servers, or users
-      that the patch will affect. Include dependencies or workflows that may require
-      adjustments.
-  issue_post_patch_communication:
-    agent: false
-    description: Notify stakeholders and end-users of the successful patch deployment.
-    name: issue_post_patch_communication
-    nodes_depended_on:
-    - perform_post_patch_validation
-    - section_line_post_deployment
+    - create_deployment_timeline
     nodes_dependent_on: []
-    prompt: Draft and distribute a communication confirming that the patch has been
-      successfully deployed. Outline any visible improvements or changes and provide
-      troubleshooting contacts.
-  monitor_systems_post_patch:
+    prompt: Enhance the deployment timeline with labels, colors, and other visual
+      elements to improve clarity and readability.
+  assess_patch_impact:
     agent: false
-    description: Continuously monitor systems for a defined period after the patch
-      to ensure stability.
-    name: monitor_systems_post_patch
+    description: Assess the impact of the third-party vendor patch on the system
+    name: assess_patch_impact
     nodes_depended_on:
-    - perform_post_patch_validation
-    - section_line_post_deployment
+    - identify_patch_details
     nodes_dependent_on: []
-    prompt: Implement a post-patch monitoring regimen. Use monitoring tools to track
-      performance, log errors, and identify anomalies for a defined period. React
-      to any identified issues efficiently.
-  perform_post_patch_validation:
+    prompt: Evaluate the potential impact of the patch on the system's functionality,
+      performance, and security.
+  assign_deployment_resources:
     agent: false
-    description: Verify the functionality and stability of the system after patch
-      deployment.
-    name: perform_post_patch_validation
+    description: Assign resources for the deployment tasks
+    name: assign_deployment_resources
     nodes_depended_on:
-    - deploy_patch
-    nodes_dependent_on:
-    - issue_post_patch_communication
-    - monitor_systems_post_patch
-    prompt: Perform a series of post-patch validation checks based on previously prepared
-      test scenarios. Ensure all systems are functioning as expected after the patch.
-  perform_test_validation:
+    - define_deployment_tasks
+    nodes_dependent_on: []
+    prompt: Identify and assign the necessary personnel, equipment, and budget for
+      each deployment task.
+  create_deployment_timeline:
     agent: false
-    description: Validate the patched test environment against the test plan.
-    name: perform_test_validation
+    description: Create a deployment timeline for the third-party vendor patch
+    name: create_deployment_timeline
     nodes_depended_on:
-    - apply_patch_in_test_env
-    nodes_dependent_on:
-    - document_test_results
-    prompt: Execute the defined test cases in the patched test environment. Compare
-      actual results against expected outcomes and highlight any deviations or issues
-      encountered.
-  prepare_backup_plan:
+    - assess_patch_impact
+    nodes_dependent_on: []
+    prompt: Develop a detailed timeline for deploying the patch, including milestones
+      and deadlines.
+  define_deployment_tasks:
     agent: false
-    description: Develop a rollback or backup plan to ensure recovery in case the
-      patch deployment fails.
-    name: prepare_backup_plan
+    description: Define the tasks required for deploying the third-party vendor patch
+    name: define_deployment_tasks
     nodes_depended_on:
-    - identify_affected_systems
-    - section_line_deployment
-    nodes_dependent_on:
-    - deploy_patch
-    prompt: Outline a backup and rollback procedure for all affected systems. Specify
-      steps for preserving current system states and ensuring rapid restoration in
-      case of failure.
-  prepare_test_plan:
+    - create_deployment_timeline
+    nodes_dependent_on: []
+    prompt: Break down the deployment process into specific tasks, including preparation,
+      execution, and verification.
+  finalize_project_plan:
     agent: false
-    description: Define a comprehensive test plan to validate the patch in a testing
-      environment before a full rollout.
-    name: prepare_test_plan
+    description: Finalize the project plan for deploying the third-party vendor patch
+    name: finalize_project_plan
     nodes_depended_on:
-    - review_patch_notes
-    - identify_affected_systems
-    nodes_dependent_on:
-    - set_up_testing_environment
-    prompt: Create a detailed test plan including test cases, expected outcomes, and
-      criteria for success to validate the patch in a controlled environment. Use
-      constraints and known details from vendor documentation.
-  review_patch_notes:
+    - assign_deployment_resources
+    - add_labels_and_visual_clarity
+    nodes_dependent_on: []
+    prompt: Combine the deployment timeline, tasks, and resources into a comprehensive
+      project plan.
+  identify_patch_details:
     agent: false
-    description: Review the release notes and documentation from the third-party vendor
-      to understand the patch details.
-    name: review_patch_notes
+    description: Identify the details of the third-party vendor patch
+    name: identify_patch_details
     nodes_depended_on: []
-    nodes_dependent_on:
-    - identify_affected_systems
-    - evaluate_risks
-    - prepare_test_plan
-    prompt: Analyze the patch notes provided by the vendor. Identify the nature of
-      changes, fixed issues, known risks, and any prerequisites for patch installation.
-      Summarize the key findings in a list.
-  section_line_deployment:
-    agent: false
-    description: Add a visual separating line labeled 'Deployment Phase' to organize
-      tasks.
-    name: section_line_deployment
-    nodes_depended_on:
-    - document_test_results
-    nodes_dependent_on:
-    - prepare_backup_plan
-    - announce_patch_schedule
-    - finalize_patch_approval
-    prompt: Insert a visual break with the label 'Deployment Phase' to separate related
-      tasks in this section.
-  section_line_initial_planning:
-    agent: false
-    description: Add a visual separating line labeled 'Initial Planning Phase' to
-      organize tasks.
-    name: section_line_initial_planning
-    nodes_depended_on: []
-    nodes_dependent_on:
-    - identify_affected_systems
-    prompt: Insert a visual break with the label 'Initial Planning Phase' to separate
-      related tasks in this section.
-  section_line_post_deployment:
-    agent: false
-    description: Add a visual separating line labeled 'Post-Deployment Phase' to organize
-      tasks.
-    name: section_line_post_deployment
-    nodes_depended_on:
-    - perform_post_patch_validation
-    nodes_dependent_on:
-    - issue_post_patch_communication
-    - monitor_systems_post_patch
-    prompt: Insert a visual break with the label 'Post-Deployment Phase' to separate
-      related tasks in this section.
-  section_line_testing:
-    agent: false
-    description: Add a visual separating line labeled 'Testing and Validation Phase'
-      to organize tasks.
-    name: section_line_testing
-    nodes_depended_on:
-    - evaluate_risks
-    nodes_dependent_on:
-    - set_up_testing_environment
-    - apply_patch_in_test_env
-    prompt: Insert a visual break with the label 'Testing and Validation Phase' to
-      separate related tasks in this section.
-  set_up_testing_environment:
-    agent: false
-    description: Prepare an isolated environment for patch testing.
-    name: set_up_testing_environment
-    nodes_depended_on:
-    - prepare_test_plan
-    - section_line_testing
-    nodes_dependent_on:
-    - apply_patch_in_test_env
-    prompt: Build or configure a controlled environment that mirrors the production
-      setup for testing the patch. Ensure necessary permissions, resources, and mock
-      data are in place.
-  train_support_staff:
-    agent: false
-    description: Provide training and update documentation for support teams to handle
-      user inquiries about the patch.
-    name: train_support_staff
-    nodes_depended_on:
-    - document_test_results
     nodes_dependent_on: []
-    prompt: Develop training materials for support staff. Include an FAQ, common troubleshooting
-      steps, and escalation processes for patch-related issues.
+    prompt: Gather information about the third-party vendor patch, including its purpose,
+      scope, and technical requirements.
+  review_and_approve_project_plan:
+    agent: false
+    description: Review and approve the project plan
+    name: review_and_approve_project_plan
+    nodes_depended_on:
+    - finalize_project_plan
+    nodes_dependent_on: []
+    prompt: Review the project plan for completeness and accuracy, and obtain approval
+      from relevant stakeholders.
